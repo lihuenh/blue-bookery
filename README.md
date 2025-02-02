@@ -1,6 +1,6 @@
 # Proyecto Dockerizado con Backend, Frontend, MySQL y Nginx
 
-Este proyecto configura un entorno completo utilizando Docker, incluyendo un **backend**, **frontend**, **base de datos MySQL** y un **proxy Nginx**. Todo ello gestionado mediante **Docker Compose** para facilitar la implementación y el desarrollo.
+Este proyecto configura un entorno completo,incluyendo un **backend**, **frontend**, **base de datos MySQL** y un **proxy Nginx**. Todo ello gestionado mediante **Docker Compose** para facilitar la implementación y el desarrollo.
 
 ## Requisitos
 
@@ -49,6 +49,7 @@ Sigue estos pasos para configurar el proyecto en tu máquina local:
 - **Ubicación**: `backend/`
 - Expone una API REST que proporciona los datos a la aplicación frontend.
 - Se conecta a la base de datos MySQL para almacenar y recuperar información.
+- El servicio backend para poder conectarse a la base de datos, tiene que esperar que el servicio mysql este corriendo. Por ello, el entrypoint en el Dockerfile del backend, es un script que espera a que este levantada la base de datos para luego conectarse (Script: wait-for-db.sh)
 
 ### Frontend
 
@@ -63,12 +64,18 @@ Sigue estos pasos para configurar el proyecto en tu máquina local:
 
 ### Nginx
 
-- Configurado como **proxy inverso** para redirigir el tráfico HTTP entre el frontend y el backend.
+- Configurado como **reverse proxy** para redirigir el tráfico HTTP entre el frontend y el backend.
 - La configuración de Nginx se encuentra en el archivo `nginx.conf`.
 
 ## Uso
 
 Aquí te dejo algunos comandos útiles para interactuar con los contenedores:
+
+- **Reconstruir los contenedores tras realizar cambios en los archivos**:
+
+  ```bash
+  docker-compose up --build -d
+  ```
 
 - **Ver los logs de los contenedores**:
 
@@ -80,10 +87,4 @@ Aquí te dejo algunos comandos útiles para interactuar con los contenedores:
 
   ```bash
   docker-compose down
-  ```
-
-- **Reconstruir los contenedores tras realizar cambios en los archivos**:
-
-  ```bash
-  docker-compose up --build -d
   ```

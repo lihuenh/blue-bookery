@@ -1,0 +1,11 @@
+/* index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Dark mode global */
+.dark {
+  background-color: #1a202c; /* Fondo oscuro */
+  color: #e2e8f0; /* Texto claro */
+  transition: all 0.5s;
+}

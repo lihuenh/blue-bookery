@@ -5,7 +5,7 @@ function BookCard({ book, onDelete, darkMode }) {
   return (
     <div
       className={`rounded-lg shadow-lg overflow-hidden transition-all duration-400 ${
-        darkMode ? 'bg-gray-700' : 'bg-white'
+        darkMode ? 'bg-gray-700 ' : 'bg-gray-100'
       }`}
     >
       <Link

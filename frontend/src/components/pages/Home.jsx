@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import BookList from '../BookList'
 
+const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+
+console.log(apiUrl)
+
 function Home({ darkMode }) {
   const [books, setBooks] = useState([])
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/books')
+    fetch(`${apiUrl}/api/books`)
       .then((response) => response.json())
       .then((data) => setBooks(data))
   }, [])
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/api/books/${id}`, { method: 'DELETE' }).then(
-      () => setBooks(books.filter((book) => book.id !== id))
+    fetch(`${apiUrl}/api/books/${id}`, { method: 'DELETE' }).then(() =>
+      setBooks(books.filter((book) => book.id !== id))
     )
   }
 
   const handleEdit = (updatedBook) => {
-    fetch(`http://localhost:5000/api/books/${updatedBook.id}`, {
+    fetch(`${apiUrl}/api/books/${updatedBook.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -37,7 +41,7 @@ function Home({ darkMode }) {
 
   return (
     <div>
-      <h1 className='text-3xl font-bold mt-3 mb-6'>Book List</h1>
+      <h1 className='text-3xl font-bold mt-6 mb-6'>Book List</h1>
       <BookList
         books={books}
         onEdit={handleEdit}

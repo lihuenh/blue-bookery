@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom' // Cambiar useHistory por useNavigate
 
+const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+
 function EditBook({ darkMode }) {
   const { id } = useParams() // Obtener el id del libro desde la URL
   const [book, setBook] = useState(null) // Estado para almacenar los datos del libro
@@ -8,7 +10,7 @@ function EditBook({ darkMode }) {
 
   useEffect(() => {
     // Cargar los datos del libro desde la API
-    fetch(`http://localhost:5000/api/books/${id}`)
+    fetch(`${apiUrl}/api/books/${id}`)
       .then((response) => response.json())
       .then((data) => setBook(data)) // Establecer los datos en el estado
   }, [id])
@@ -18,7 +20,7 @@ function EditBook({ darkMode }) {
     console.log(book)
 
     // Enviar los datos editados del libro a la API
-    fetch(`http://localhost:5000/api/books/${id}`, {
+    fetch(`${apiUrl}/api/books/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(book), // Enviar los datos del libro
@@ -56,7 +58,9 @@ function EditBook({ darkMode }) {
               <div key={key} className='col-span-1'>
                 <label
                   htmlFor={key}
-                  className='block text-sm font-medium text-gray-200'
+                  className={`block text-sm font-medium ${
+                    darkMode ? 'text-white' : 'text-gray-900'
+                  }`}
                 >
                   {key.charAt(0).toUpperCase() + key.slice(1)}
                 </label>

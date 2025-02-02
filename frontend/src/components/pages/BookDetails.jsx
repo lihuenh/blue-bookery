@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
+const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+
 function BookDetails({ darkMode }) {
   const { id } = useParams()
   const [book, setBook] = useState(null)
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/books/${id}`)
+    fetch(`${apiUrl}/api/books/${id}`)
       .then((response) => response.json())
       .then((data) => setBook(data))
   }, [id])
@@ -16,7 +18,20 @@ function BookDetails({ darkMode }) {
   return (
     <>
       <div
-        className={`max-w-3xl mx-auto rounded-lg shadow-xl transition-all duration-500 ${
+        className={`mt-2 transition-all duration-500 mt-6 ${
+          darkMode ? ' text-white' : 'text-black'
+        }`}
+      >
+        <h1
+          className={`text-3xl font-semibold ${
+            darkMode ? 'text-white' : 'text-gray-900'
+          }`}
+        >
+          Book Details
+        </h1>
+      </div>
+      <div
+        className={`max-w-3xl mx-auto rounded-lg shadow-xl transition-all duration-500 mt-4 ${
           darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-700'
         }`}
       >
@@ -40,7 +55,7 @@ function BookDetails({ darkMode }) {
       </div>
       <Link
         to='/'
-        className='mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
+        className='mt-4 w-full inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-center'
       >
         Back to List
       </Link>

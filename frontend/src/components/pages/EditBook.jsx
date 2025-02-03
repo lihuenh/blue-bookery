@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom' // Cambiar useHistory por useNavigate
 
-const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:5000'
 
 function EditBook({ darkMode }) {
   const { id } = useParams() // Obtener el id del libro desde la URL
@@ -39,7 +39,7 @@ function EditBook({ darkMode }) {
 
   return (
     <div
-      className={`mb-6 mt-6 transition-all duration-500 ${
+      className={`transition-all duration-500 ${
         darkMode ? ' text-white' : 'text-black'
       }`}
     >

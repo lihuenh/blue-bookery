@@ -3,18 +3,18 @@ import React from 'react'
 function BookForm({ book, setBook, onSubmit, darkMode }) {
   return (
     <div
-      className={`mb-6 transition-all duration-500 ${
+      className={`transition-all duration-500 ${
         darkMode ? ' text-white' : 'text-black'
       }`}
     >
       <h2
-        className={`text-xl font-semibold ${
+        className={`text-xl font-semibold mb-5 ${
           darkMode ? 'text-white' : 'text-gray-900'
         }`}
       >
-        {book.id ? 'Edit Book' : 'New Book'}
+        {'New Book'}
       </h2>
-      <div className='grid grid-cols-1 gap-4 mt-2'>
+      <div className='grid grid-cols-1 gap-5 mt-2'>
         {Object.keys(book).map((key) => (
           <input
             key={key}
@@ -33,7 +33,7 @@ function BookForm({ book, setBook, onSubmit, darkMode }) {
       </div>
       <button
         onClick={onSubmit}
-        className={`mt-4 w-full p-2 rounded ${
+        className={`mt-6 w-full p-2 rounded ${
           darkMode
             ? 'bg-blue-500 text-white hover:bg-blue-600'
             : 'bg-blue-600 text-white hover:bg-blue-700'

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
-const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:5000'
 
 function BookDetails({ darkMode }) {
   const { id } = useParams()
@@ -18,7 +18,7 @@ function BookDetails({ darkMode }) {
   return (
     <>
       <div
-        className={`mt-2 transition-all duration-500 mt-6 ${
+        className={`transition-all duration-500 ${
           darkMode ? ' text-white' : 'text-black'
         }`}
       >

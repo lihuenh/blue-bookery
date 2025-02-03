@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import BookList from '../BookList'
 
-const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:5000'
 
 console.log(apiUrl)
 
@@ -41,7 +41,7 @@ function Home({ darkMode }) {
 
   return (
     <div>
-      <h1 className='text-3xl font-bold mt-6 mb-6'>Book List</h1>
+      <h1 className='text-3xl font-bold mb-6'>Book List</h1>
       <BookList
         books={books}
         onEdit={handleEdit}

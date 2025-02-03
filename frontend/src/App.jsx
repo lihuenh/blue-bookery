@@ -28,7 +28,7 @@ function App() {
         />
 
         {/* Contenido principal con flex-grow */}
-        <div className='flex-grow lg:p-8 lg:pt-20 p-4 pt-16'>
+        <div className='flex-grow lg:px-6 pt-24 px-4 pb-20'>
           <Routes>
             <Route path='/' element={<Home darkMode={darkMode} />} />
             <Route path='/add' element={<AddBook darkMode={darkMode} />} />

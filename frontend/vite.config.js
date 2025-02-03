@@ -9,7 +9,7 @@ export default defineConfig({
     port: 3000, // Use the correct port for your server
     hmr: {
       protocol: 'ws', // Use WebSocket for Hot Module Replacement
-      host: '192.168.0.242', // Replace this with your server's IP address
+      host: 'localhost', // Replace this with your server's IP address
       clientPort: 3000, // Ensure this matches the server port
     },
   },

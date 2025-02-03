@@ -24,6 +24,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: frontend
+    environment:
+      - VITE_API_URL=http://$SERVER_IP:5000
     ports:
       - '3000:3000'
     depends_on:

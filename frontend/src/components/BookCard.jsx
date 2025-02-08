@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 function BookCard({ book, onDelete, darkMode }) {
   return (
     <div
-      className={`flex flex-col h-[500px] rounded-lg shadow-lg overflow-hidden transition-all duration-400 
+      className={`flex flex-col h-[500px] rounded-lg shadow-lg overflow-hidden transition-all duration-700 
       ${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-700'}`}
     >
       <Link to={`/edit-book/${book.id}`} className='h-[60%]'>

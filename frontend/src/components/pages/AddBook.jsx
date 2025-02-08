@@ -25,7 +25,7 @@ function AddBook({ darkMode }) {
 
   return (
     <div>
-      <h1 className='text-3xl font-bold mb-4 transition-all duration-500'>
+      <h1 className='text-3xl font-bold mb-4 transition-all duration-700'>
         Add a Book
       </h1>
       <BookForm

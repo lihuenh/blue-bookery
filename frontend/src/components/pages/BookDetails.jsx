@@ -18,7 +18,7 @@ function BookDetails({ darkMode }) {
   return (
     <>
       <div
-        className={`transition-all duration-500 ${
+        className={`transition-all duration-700 ${
           darkMode ? ' text-white' : 'text-black'
         }`}
       >
@@ -31,7 +31,7 @@ function BookDetails({ darkMode }) {
         </h1>
       </div>
       <div
-        className={`max-w-3xl mx-auto rounded-lg shadow-xl transition-all duration-500 mt-4 ${
+        className={`max-w-3xl mx-auto rounded-lg shadow-xl transition-all duration-700 mt-4 ${
           darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-700'
         }`}
       >

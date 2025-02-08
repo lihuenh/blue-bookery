@@ -3,7 +3,7 @@ import React from 'react'
 function BookForm({ book, setBook, onSubmit, darkMode }) {
   return (
     <div
-      className={`transition-all duration-500 ${
+      className={`transition-all duration-700 ${
         darkMode ? ' text-white' : 'text-black'
       }`}
     >
@@ -27,7 +27,7 @@ function BookForm({ book, setBook, onSubmit, darkMode }) {
                 ? 'bg-gray-700 text-white border-gray-600'
                 : 'bg-white text-black border-gray-300'
             } focus:outline-none focus:ring-2 focus:ring-blue-500
-            transition-all duration-500`}
+            transition-all duration-700`}
           />
         ))}
       </div>

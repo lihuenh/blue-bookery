@@ -17,7 +17,6 @@ function EditBook({ darkMode }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(book)
 
     // Enviar los datos editados del libro a la API
     fetch(`${apiUrl}/api/books/${id}`, {
@@ -39,7 +38,7 @@ function EditBook({ darkMode }) {
 
   return (
     <div
-      className={`transition-all duration-500 ${
+      className={`transition-all duration-700 ${
         darkMode ? ' text-white' : 'text-black'
       }`}
     >
@@ -75,7 +74,7 @@ function EditBook({ darkMode }) {
                     darkMode
                       ? 'bg-gray-700 text-gray-200 border-gray-600'
                       : 'bg-white text-black border-gray-300'
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-500`}
+                  } focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-700`}
                 />
               </div>
             )

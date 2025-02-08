@@ -6,10 +6,18 @@ const cors = require('cors')
 config()
 
 const app = express()
-const port = process.env.NODE_DOCKER_PORT
+const port = 5000
 
 app.use(express.json())
-app.use(cors())
+
+const corsOptions = {
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Métodos permitidos
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'], // Cabeceras permitidas
+  credentials: true, // Allows credentials like cookies, Authorization headers, etc.
+}
+
+app.use(cors(corsOptions))
 
 // Conexión a MySQL
 const db = mysql.createConnection({

@@ -5,12 +5,12 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: '0.0.0.0', // Ensures the server listens on all network interfaces
-    port: 3000, // Use the correct port for your server
+    host: '0.0.0.0',
+    port: 3000,
     hmr: {
-      protocol: 'ws', // Use WebSocket for Hot Module Replacement
-      host: '192.168.0.242', // Replace this with your server's IP address
-      clientPort: 3000, // Ensure this matches the server port
+      protocol: 'ws',
+      host: process.env.VITE_PUBLIC_HOST || 'localhost',
+      clientPort: 3000,
     },
   },
 })

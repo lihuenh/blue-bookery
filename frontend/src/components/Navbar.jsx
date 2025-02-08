@@ -11,7 +11,7 @@ function Navbar({ darkMode, toggleDarkMode }) {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full p-4 shadow-md z-10 transition-all duration-500 ${
+      className={`fixed top-0 left-0 w-full p-4 shadow-md z-10 transition-all duration-700 ${
         darkMode ? 'bg-gray-800' : 'bg-gray-200'
       }`}
     >
@@ -48,7 +48,7 @@ function Navbar({ darkMode, toggleDarkMode }) {
         <div className='hidden md:flex flex-1 justify-center space-x-6'>
           <Link
             to='/'
-            className={`text-xl font-semibold transition-all duration-300 ${
+            className={`text-xl font-semibold transition-all duration-700 ${
               darkMode ? 'text-white' : 'text-gray-700'
             } hover:text-blue-500 hover:underline`}
           >
@@ -56,7 +56,7 @@ function Navbar({ darkMode, toggleDarkMode }) {
           </Link>
           <Link
             to='/add'
-            className={`text-xl font-semibold transition-all duration-300 ${
+            className={`text-xl font-semibold transition-all duration-700 ${
               darkMode ? 'text-white' : 'text-gray-700'
             } hover:text-blue-500 hover:underline`}
           >
@@ -67,13 +67,13 @@ function Navbar({ darkMode, toggleDarkMode }) {
         {/* Switch de Dark Mode (visible tanto en móvil como en escritorio) */}
         <div className='flex items-center lg:mr-4'>
           <div
-            className={`relative w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-all duration-300 ${
+            className={`relative w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-all duration-700 ${
               darkMode ? 'bg-slate-600' : 'bg-gray-300'
             }`}
             onClick={toggleDarkMode}
           >
             <div
-              className={`w-6 h-6 bg-white rounded-full flex justify-center items-center transition-all duration-300 ${
+              className={`w-6 h-6 bg-white rounded-full flex justify-center items-center transition-all duration-700 ${
                 darkMode ? 'transform translate-x-6' : ''
               }`}
             >
@@ -95,7 +95,7 @@ function Navbar({ darkMode, toggleDarkMode }) {
       >
         <Link
           to='/'
-          className={`block text-xl font-semibold mb-4 transition-all duration-300 ${
+          className={`block text-xl font-semibold mb-4 transition-all duration-700 ${
             darkMode ? 'text-white' : 'text-gray-700'
           } hover:text-blue-500 hover:underline`}
           onClick={closeMenu}
@@ -104,7 +104,7 @@ function Navbar({ darkMode, toggleDarkMode }) {
         </Link>
         <Link
           to='/add'
-          className={`block text-xl font-semibold mb-4 transition-all duration-300 ${
+          className={`block text-xl font-semibold mb-4 transition-all duration-700 ${
             darkMode ? 'text-white' : 'text-gray-700'
           } hover:text-blue-500 hover:underline`}
           onClick={closeMenu}

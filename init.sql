@@ -1,9 +1,7 @@
--- Crear la base de datos y la tabla si no existen
 CREATE DATABASE IF NOT EXISTS library;
 
 USE library;
 
--- Crear la tabla de libros
 CREATE TABLE IF NOT EXISTS books (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -13,10 +11,9 @@ CREATE TABLE IF NOT EXISTS books (
     uploaded_by VARCHAR(255) NOT NULL,
     upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    image VARCHAR(255) -- Nueva columna para la URL de la imagen
+    image VARCHAR(255)
 );
 
--- Insertar todos los libros de la saga "The Wheel of Time" con fechas de carga y modificación
 INSERT INTO books (title, author, year, publisher, uploaded_by, upload_date, last_modified, image)
 VALUES 
     ('The Eye of the World', 'Robert Jordan', 1990, 'Tor Books', 'admin', '2025-02-01 10:00:00', '2025-02-01 10:00:00', 'https://upload.wikimedia.org/wikipedia/en/0/00/WoT01_TheEyeOfTheWorld.jpg'),

@@ -74,17 +74,17 @@ Aquí te dejo algunos comandos útiles para interactuar con los contenedores:
 - **Reconstruir los contenedores tras realizar cambios en los archivos**:
 
   ```bash
-  docker-compose up --build -d
+  docker compose up --build -d
   ```
 
 - **Ver los logs de los contenedores**:
 
   ```bash
-  docker-compose logs -f
+  docker compose logs -f
   ```
 
 - **Detener los servicios** (sin eliminar los contenedores):
 
   ```bash
-  docker-compose down
+  docker compose down
   ```

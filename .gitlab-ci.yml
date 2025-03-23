@@ -10,8 +10,8 @@ variables:
   REGISTRY_PASSWORD: $CI_REGISTRY_PASSWORD
 
   # Nombres de las imágenes
-  FRONTEND_IMAGE_NAME: ${DOCKER_REGISTRY}/kinborg/front
-  BACKEND_IMAGE_NAME: ${DOCKER_REGISTRY}/kinborg/back
+  FRONTEND_IMAGE_NAME: ${DOCKER_REGISTRY}/kinborg/blue-bookery/front
+  BACKEND_IMAGE_NAME: ${DOCKER_REGISTRY}/kinborg/blue-bookery/back
 
   # Tags de las imágenes
   FRONTEND_IMAGE_TAG: ${CI_COMMIT_SHORT_SHA}

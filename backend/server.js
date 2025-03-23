@@ -6,7 +6,7 @@ const cors = require('cors')
 config()
 
 const app = express()
-const port = 5000
+const port = process.env.NODE_DOCKER_PORT
 
 app.use(express.json())
 

@@ -17,47 +17,36 @@ variables:
   FRONTEND_IMAGE_TAG: ${CI_COMMIT_SHORT_SHA}
   BACKEND_IMAGE_TAG: ${CI_COMMIT_SHORT_SHA}
 
-  # Variables para Docker-in-Docker con TLS
-  DOCKER_TLS_CERTDIR: '/certs'
-  DOCKER_HOST: 'tcp://docker:2376'
-  DOCKER_TLS_VERIFY: 1
-  DOCKER_CERT_PATH: '/certs/client'
-
-# Template para construcción de imágenes Docker
-.build_template: &build_definition
-  image: docker:20.10.16
-  services:
-    - name: docker:20.10.16-dind
-      command: ['--tls=false']
-  before_script:
-    - until docker info; do sleep 1; done
-    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD $DOCKER_REGISTRY
-
-# El resto del pipeline sigue igual...
+# Construcción de la imagen del frontend
 build:frontend:
-  <<: *build_definition
   stage: build
+  image: docker:20.10.16
   script:
-    - cd frontend
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD $DOCKER_REGISTRY
+    - cd frontend # Ajusta esta ruta a donde esté tu código de frontend
     - echo "Construyendo imagen de frontend..."
     - docker build -t ${FRONTEND_IMAGE_NAME}:${FRONTEND_IMAGE_TAG} .
     - docker tag ${FRONTEND_IMAGE_NAME}:${FRONTEND_IMAGE_TAG} ${FRONTEND_IMAGE_NAME}:latest
     - 'echo "Imagen frontend construida: ${FRONTEND_IMAGE_NAME}:${FRONTEND_IMAGE_TAG}"'
 
+# Construcción de la imagen del backend
 build:backend:
-  <<: *build_definition
   stage: build
+  image: docker:20.10.16
   script:
-    - cd backend
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD $DOCKER_REGISTRY
+    - cd backend # Ajusta esta ruta a donde esté tu código de backend
     - echo "Construyendo imagen de backend..."
     - docker build -t ${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG} .
     - docker tag ${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG} ${BACKEND_IMAGE_NAME}:latest
     - 'echo "Imagen backend construida: ${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG}"'
 
+# Enviar las imágenes al registro
 push:images:
-  <<: *build_definition
   stage: push
+  image: docker:20.10.16
   script:
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD $DOCKER_REGISTRY
     - echo "Enviando imágenes al registro..."
     - docker push ${FRONTEND_IMAGE_NAME}:${FRONTEND_IMAGE_TAG}
     - docker push ${FRONTEND_IMAGE_NAME}:latest
@@ -68,15 +57,19 @@ push:images:
     - build:frontend
     - build:backend
 
+# Desplegar la aplicación localmente con docker-compose
 deploy:local:
-  <<: *build_definition
   stage: deploy
+  image: docker:20.10.16
   script:
     - apk add --no-cache docker-compose
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD $DOCKER_REGISTRY
     - echo "Actualizando docker-compose.yml con las nuevas imágenes..."
+    # Actualizar las líneas de imagen en el docker-compose.yml con las nuevas tags
     - sed -i "s|registry.kinborg.dev/kinborg/front:latest|${FRONTEND_IMAGE_NAME}:${FRONTEND_IMAGE_TAG}|g" docker-compose.yml
     - sed -i "s|registry.kinborg.dev/kinborg/back:latest|${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG}|g" docker-compose.yml
 
+    # Crear o actualizar archivo .env para docker-compose
     - |
       cat > .env << EOF
       # MySQL Configuration
@@ -97,8 +90,11 @@ deploy:local:
       PUBLIC_HOST=$PUBLIC_HOST
       EOF
 
+    # Detener los contenedores existentes (si los hay) y levantar los nuevos
     - docker-compose down
     - docker-compose up -d
+
+    # Verificar que los contenedores estén funcionando
     - docker-compose ps
     - echo "Aplicación desplegada exitosamente en el entorno local"
   needs:

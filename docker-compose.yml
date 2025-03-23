@@ -17,9 +17,7 @@ services:
       - app-network
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: registry.kinborg.dev/kinborg/front:latest
     container_name: frontend
     environment:
       - VITE_API_URL=$SERVER_URL
@@ -32,9 +30,7 @@ services:
       - app-network
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: registry.kinborg.dev/kinborg/front:latest
     container_name: backend
     links:
       - mysql

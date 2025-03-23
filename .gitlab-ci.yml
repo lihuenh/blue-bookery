@@ -5,49 +5,55 @@ stages:
 
 variables:
   # Variables para Docker
-  DOCKER_REGISTRY: $CI_REGISTRY # Esta variable está predefinida por GitLab
-  REGISTRY_USER: $CI_REGISTRY_USER # Esta variable está predefinida por GitLab
-  REGISTRY_PASSWORD: $CI_REGISTRY_PASSWORD # Esta variable está predefinida por GitLab
+  DOCKER_REGISTRY: registry.kinborg.dev
+  REGISTRY_USER: $CI_REGISTRY_USER
+  REGISTRY_PASSWORD: $CI_REGISTRY_PASSWORD
 
   # Nombres de las imágenes
   FRONTEND_IMAGE_NAME: ${DOCKER_REGISTRY}/kinborg/front
   BACKEND_IMAGE_NAME: ${DOCKER_REGISTRY}/kinborg/back
 
-  # Tags de las imágenes (usando el hash corto del commit)
+  # Tags de las imágenes
   FRONTEND_IMAGE_TAG: ${CI_COMMIT_SHORT_SHA}
   BACKEND_IMAGE_TAG: ${CI_COMMIT_SHORT_SHA}
+
+  # Variables para Docker-in-Docker con TLS
+  DOCKER_TLS_CERTDIR: '/certs'
+  DOCKER_HOST: 'tcp://docker:2376'
+  DOCKER_TLS_VERIFY: 1
+  DOCKER_CERT_PATH: '/certs/client'
 
 # Template para construcción de imágenes Docker
 .build_template: &build_definition
   image: docker:20.10.16
   services:
-    - docker:20.10.16-dind
+    - name: docker:20.10.16-dind
+      command: ['--tls=false']
   before_script:
+    - until docker info; do sleep 1; done
     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD $DOCKER_REGISTRY
 
-# Construcción de la imagen del frontend
+# El resto del pipeline sigue igual...
 build:frontend:
   <<: *build_definition
   stage: build
   script:
-    - cd frontend # Ajusta esta ruta a donde esté tu código de frontend
+    - cd frontend
     - echo "Construyendo imagen de frontend..."
     - docker build -t ${FRONTEND_IMAGE_NAME}:${FRONTEND_IMAGE_TAG} .
     - docker tag ${FRONTEND_IMAGE_NAME}:${FRONTEND_IMAGE_TAG} ${FRONTEND_IMAGE_NAME}:latest
     - 'echo "Imagen frontend construida: ${FRONTEND_IMAGE_NAME}:${FRONTEND_IMAGE_TAG}"'
 
-# Construcción de la imagen del backend
 build:backend:
   <<: *build_definition
   stage: build
   script:
-    - cd backend # Ajusta esta ruta a donde esté tu código de backend
+    - cd backend
     - echo "Construyendo imagen de backend..."
     - docker build -t ${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG} .
     - docker tag ${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG} ${BACKEND_IMAGE_NAME}:latest
     - 'echo "Imagen backend construida: ${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG}"'
 
-# Enviar las imágenes al registro de GitLab
 push:images:
   <<: *build_definition
   stage: push
@@ -62,22 +68,15 @@ push:images:
     - build:frontend
     - build:backend
 
-# Desplegar la aplicación localmente con docker-compose
 deploy:local:
+  <<: *build_definition
   stage: deploy
-  image: docker:20.10.16
-  services:
-    - docker:20.10.16-dind
-  before_script:
-    - apk add --no-cache docker-compose
-    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD $DOCKER_REGISTRY
   script:
+    - apk add --no-cache docker-compose
     - echo "Actualizando docker-compose.yml con las nuevas imágenes..."
-    # Actualizar las líneas de imagen en el docker-compose.yml con las nuevas tags
     - sed -i "s|registry.kinborg.dev/kinborg/front:latest|${FRONTEND_IMAGE_NAME}:${FRONTEND_IMAGE_TAG}|g" docker-compose.yml
     - sed -i "s|registry.kinborg.dev/kinborg/back:latest|${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG}|g" docker-compose.yml
 
-    # Crear archivo .env desde variables de GitLab
     - |
       cat > .env << EOF
       # MySQL Configuration
@@ -98,15 +97,12 @@ deploy:local:
       PUBLIC_HOST=$PUBLIC_HOST
       EOF
 
-    # Detener los contenedores existentes (si los hay) y levantar los nuevos
     - docker-compose down
     - docker-compose up -d
-
-    # Verificar que los contenedores estén funcionando
     - docker-compose ps
     - echo "Aplicación desplegada exitosamente en el entorno local"
   needs:
     - push:images
-  # Este job está configurado para ejecutarse solo en la rama principal
   only:
-    - master # Para incluir ambos nombres comunes de la rama principal
+    - main
+    - master

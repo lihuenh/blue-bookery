@@ -62,14 +62,34 @@ deploy:local:
   stage: deploy
   image: docker:20.10.16
   script:
+    # Instalar herramientas necesarias
     - apk add --no-cache docker-compose
+
+    # Login al registro de Docker
     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD $DOCKER_REGISTRY
-    - echo "Actualizando docker-compose.yml con las nuevas imágenes..."
-    # Actualizar las líneas de imagen en el docker-compose.yml con las nuevas tags
+
+    # Definir la ubicación donde desplegar la aplicación
+    - export DEPLOY_PATH="/home/kinborg/BlueBookery"
+
+    # Crear la ruta si no existe
+    - mkdir -p $DEPLOY_PATH
+
+    # Copiar los archivos necesarios a la ubicación de despliegue
+    - cp docker-compose.yml $DEPLOY_PATH/
+    - cp nginx/nginx.conf $DEPLOY_PATH/nginx.conf
+
+    # Crear directorios necesarios en la ubicación de despliegue
+    - mkdir -p $DEPLOY_PATH/mysql-data
+    - touch $DEPLOY_PATH/init.sql
+
+    # Cambiar al directorio de despliegue
+    - cd $DEPLOY_PATH
+
+    # Actualizar las imágenes en el docker-compose.yml
     - sed -i "s|registry.kinborg.dev/kinborg/front:latest|${FRONTEND_IMAGE_NAME}:${FRONTEND_IMAGE_TAG}|g" docker-compose.yml
     - sed -i "s|registry.kinborg.dev/kinborg/back:latest|${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG}|g" docker-compose.yml
 
-    # Crear o actualizar archivo .env para docker-compose
+    # Crear archivo .env con las variables necesarias
     - |
       cat > .env << EOF
       # MySQL Configuration
@@ -90,15 +110,26 @@ deploy:local:
       PUBLIC_HOST=$PUBLIC_HOST
       EOF
 
-    # Detener los contenedores existentes (si los hay) y levantar los nuevos
+    # Reiniciar los contenedores
     - docker-compose down
     - docker-compose up -d
 
-    # Verificar que los contenedores estén funcionando
+    # Verificar estado
+    - echo "Verificando que todos los servicios estén en funcionamiento..."
     - docker-compose ps
-    - echo "Aplicación desplegada exitosamente en el entorno local"
-  needs:
-    - push:images
+    - |
+      if docker-compose ps | grep -q "mysql.*Up" && \
+        docker-compose ps | grep -q "nginx.*Up" && \
+        docker-compose ps | grep -q "backend.*Up" && \
+        docker-compose ps | grep -q "frontend.*Up"; then
+        echo "✅ Todos los servicios están funcionando correctamente"
+        echo "🚀 Aplicación desplegada exitosamente en $DEPLOY_PATH"
+      else
+        echo "❌ ERROR: No todos los servicios están en funcionamiento"
+        echo "⚠️ Verificar los logs para más detalles:"
+        docker-compose logs
+        exit 1
+      fi
   only:
     - main
     - master

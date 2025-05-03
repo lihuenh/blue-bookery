@@ -1,20 +1,29 @@
-# Usa la imagen oficial de Node.js como base
-FROM node:23-alpine
+# Usa la imagen oficial de Node.js como base para construir
+FROM node:23-alpine AS build
 
 # Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia el archivo package.json y el lockfile para instalar las dependencias
+# Copia los archivos de dependencias
 COPY package*.json ./
 
 # Instala las dependencias
 RUN npm install
 
-# Copia el código fuente de la aplicación
+# Copia el código fuente
 COPY . .
 
-# Expone el puerto que Vite usará
-EXPOSE 3000
+# Ejecuta la construcción
+RUN npm run build
 
-# Inicia el servidor de desarrollo de Vite
-CMD ["npm", "run", "dev"]
+# Usa Nginx para servir los archivos generados
+FROM nginx:alpine
+
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copia los archivos generados por Vite a Nginx
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Exponer el puerto 3000
+EXPOSE 80

@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import BookList from '../BookList'
 
-const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:5000'
-
-console.log(apiUrl)
-console.log(import.meta.env.VITE_API_URL)
+const apiUrl = import.meta.env.VITE_API_URL ?? ''
 
 function Home({ darkMode }) {
   const [books, setBooks] = useState([])

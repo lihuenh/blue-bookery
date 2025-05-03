@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom' // Cambiar useHistory por useNavigate
 
-const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:5000'
+const apiUrl = import.meta.env.VITE_API_URL ?? ''
 
 function EditBook({ darkMode }) {
   const { id } = useParams() // Obtener el id del libro desde la URL
@@ -12,7 +12,8 @@ function EditBook({ darkMode }) {
     // Cargar los datos del libro desde la API
     fetch(`${apiUrl}/api/books/${id}`)
       .then((response) => response.json())
-      .then((data) => setBook(data)) // Establecer los datos en el estado
+      .then((data) => setBook(data))
+    // Establecer los datos en el estado
   }, [id])
 
   const handleSubmit = (e) => {

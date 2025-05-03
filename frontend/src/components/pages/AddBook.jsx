@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BookForm from '../BookForm'
 
-const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:5000'
+const apiUrl = import.meta.env.VITE_API_URL ?? ''
 
 function AddBook({ darkMode }) {
   const [book, setBook] = useState({

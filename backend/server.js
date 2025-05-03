@@ -11,7 +11,7 @@ const port = process.env.NODE_DOCKER_PORT
 app.use(express.json())
 
 const corsOptions = {
-  origin: '*',
+  origin: '*', // Cambia esto a la URL de tu frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Métodos permitidos
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'], // Cabeceras permitidas
   credentials: true, // Allows credentials like cookies, Authorization headers, etc.

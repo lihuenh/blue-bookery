@@ -1,22 +1,25 @@
-# Usa la imagen oficial de Node.js como base
-FROM node:23-alpine
+# Etapa de build
+FROM node:23-alpine AS builder
 
-# Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia el archivo package.json y el lockfile
 COPY package*.json ./
 
-# Instala las dependencias
-RUN npm install
+RUN npm install --production
 
-# Copia el código fuente de la aplicación
 COPY . .
 
-COPY wait-for-db.sh /app/wait-for-db.sh 
-RUN chmod +x /app/wait-for-db.sh 
+# Etapa final (runtime)
+FROM node:23-alpine
 
-# Expone el puerto que Express usará
+WORKDIR /app
+
+# Solo copiar lo necesario desde el builder
+COPY --from=builder /app .
+
+COPY wait-for-db.sh /app/wait-for-db.sh
+RUN chmod +x /app/wait-for-db.sh
+
 EXPOSE 5000
 
 ENTRYPOINT ["/app/wait-for-db.sh"]

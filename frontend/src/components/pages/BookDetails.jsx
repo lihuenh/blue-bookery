@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
-const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:5000'
+const apiUrl = import.meta.env.VITE_API_URL ?? ''
 
 function BookDetails({ darkMode }) {
   const { id } = useParams()

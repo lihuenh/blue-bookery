@@ -6,6 +6,7 @@ import Home from './components/pages/Home'
 import AddBook from './components/pages/AddBook'
 import EditBook from './components/pages/EditBook'
 import BookDetails from './components/pages/BookDetails'
+import HostInfo from './components/pages/HostInfo'
 
 function App() {
   const [darkMode, setDarkMode] = useState(
@@ -39,6 +40,10 @@ function App() {
             <Route
               path='/book/:id'
               element={<BookDetails darkMode={darkMode} />}
+            />
+            <Route
+              path='/hostinfo'
+              element={<HostInfo darkMode={darkMode} />}
             />
           </Routes>
         </div>

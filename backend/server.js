@@ -2,11 +2,17 @@ const express = require('express')
 const mysql = require('mysql2')
 const { config } = require('dotenv')
 const cors = require('cors')
+const os = require('os')
+const fs = require('fs')
 
 config()
 
 const app = express()
 const port = process.env.NODE_DOCKER_PORT
+
+const hostname = os.hostname()
+const interfaces = os.networkInterfaces()
+let ipAddress = ''
 
 app.use(express.json())
 
@@ -28,18 +34,60 @@ const db = mysql.createConnection({
   port: process.env.MYSQLDB_DOCKER_PORT,
 })
 
+function isDocker() {
+  try {
+    return fs.existsSync('/.dockerenv')
+  } catch (err) {
+    return false
+  }
+}
+
+// Función para detectar si estamos en Kubernetes
+function isKubernetes() {
+  return process.env.KUBERNETES_SERVICE_HOST !== undefined
+}
+
+// Función para obtener la IP del contenedor
+function getIpAddress() {
+  const interfaces = os.networkInterfaces()
+  let ipAddress = ''
+  Object.keys(interfaces).forEach((interfaceName) => {
+    interfaces[interfaceName].forEach((interfaceInfo) => {
+      if (interfaceInfo.family === 'IPv4' && !interfaceInfo.internal) {
+        ipAddress = interfaceInfo.address
+      }
+    })
+  })
+  return ipAddress
+}
+
 db.connect((err) => {
   if (err) throw err
   console.log('Conectado a la base de datos MySQL')
 })
-
-// Rutas CRUD para libros
 
 // Obtener todos los libros
 app.get('/api/books', (req, res) => {
   db.query('SELECT * FROM books', (err, results) => {
     if (err) throw err
     res.json(results)
+  })
+})
+
+// Ruta para obtener la información del contenedor/host
+app.get('/api/hostinfo', (req, res) => {
+  const docker = isDocker()
+  const kubernetes = isKubernetes()
+  const podName = process.env.HOSTNAME || 'No es un pod de Kubernetes'
+  const hostname = os.hostname()
+  const ipAddress = getIpAddress()
+
+  res.json({
+    Docker: docker,
+    Kubernetes: kubernetes,
+    PodName: podName,
+    hostname: hostname,
+    IP: ipAddress,
   })
 })
 

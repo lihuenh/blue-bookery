@@ -19,11 +19,15 @@ RUN npm run build
 # Usa Nginx para servir los archivos generados
 FROM nginx:alpine
 
-
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copia los archivos generados por Vite a Nginx
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Exponer el puerto 3000
+COPY get-ip.sh /usr/local/bin/get-ip.sh
+RUN chmod +x /usr/local/bin/get-ip.sh
+
+# Ejecutar el script para obtener la IP y almacenar la variable en un archivo .env
+ENTRYPOINT ["/usr/local/bin/get-ip.sh"]
+
 EXPOSE 80

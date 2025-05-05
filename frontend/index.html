@@ -8,6 +8,11 @@
   </head>
   <body>
     <div id="root"></div>
+    <script src="/env.js"></script>
+    <script>
+      window.VITE_IP = window.__ENV__?.VITE_IP
+      window.VITE_HOSTNAME = window.__ENV__?.VITE_HOSTNAME
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

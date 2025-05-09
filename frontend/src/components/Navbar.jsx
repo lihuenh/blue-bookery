@@ -9,10 +9,14 @@ function Navbar({ darkMode, toggleDarkMode }) {
 
   const closeMenu = () => setIsMenuOpen(false)
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' }) // suave
+  }
+
   return (
     <nav
-      className={`fixed top-0 left-0 w-full p-4 shadow-md z-10 transition-all duration-700 ${
-        darkMode ? 'bg-gray-800' : 'bg-gray-200'
+      className={`fixed top-0 left-0 w-full p-4 shadow-md z-10 transition-all duration-300 ${
+        darkMode ? 'bg-gray-800' : 'bg-gray-100'
       }`}
     >
       <div className='flex justify-between items-center'>
@@ -21,44 +25,46 @@ function Navbar({ darkMode, toggleDarkMode }) {
           <FaBars
             onClick={toggleMenu}
             className={`text-xl cursor-pointer h-7 w-7 ${
-              darkMode ? 'text-white' : 'text-gray-700'
+              darkMode ? 'text-white' : 'text-slate-700'
             }`}
           />
         </div>
 
         {/* Logo (centrado en móvil, a la izquierda en escritorio) */}
         <div className='flex items-center justify-center md:justify-start lg:ml-5'>
-          <Link
-            to='/'
+          <button
             className={`text-2xl font-semibold flex items-center space-x-2 ${
-              darkMode ? 'text-white' : 'text-gray-700'
+              darkMode ? 'text-white' : 'text-slate-700'
             }`}
-            onClick={closeMenu}
+            onClick={() => {
+              closeMenu() // asegúrate de que esté definida
+              scrollToTop() // esta también
+            }}
           >
             <img
-              src={`${darkMode ? '/logo-light.svg' : '/logo.svg'}`} // Ruta al logo (asegurate de que esté en la carpeta public)
+              src={`${darkMode ? '/logo-light.svg' : '/logo.svg'}`}
               alt='Logo'
               className='w-10 h-10'
             />
             <span>Blue Bookery</span>
-          </Link>
+          </button>
         </div>
 
         {/* Menú en versión escritorio (centrado) */}
         <div className='hidden md:flex flex-1 justify-center space-x-6'>
           <Link
             to='/'
-            className={`text-xl font-semibold transition-all duration-700 ${
-              darkMode ? 'text-white' : 'text-gray-700'
-            } hover:text-blue-500 hover:underline`}
+            className={`text-xl font-semibold transition-all duration-200 ${
+              darkMode ? 'text-white' : 'text-slate-700'
+            } hover:text-blue-600 hover:underline`}
           >
             Home
           </Link>
           <Link
             to='/add'
-            className={`text-xl font-semibold transition-all duration-700 ${
-              darkMode ? 'text-white' : 'text-gray-700'
-            } hover:text-blue-500 hover:underline`}
+            className={`text-xl font-semibold transition-all duration-200 ${
+              darkMode ? 'text-white' : 'text-slate-700'
+            } hover:text-blue-600 hover:underline`}
           >
             Add Book
           </Link>
@@ -68,7 +74,7 @@ function Navbar({ darkMode, toggleDarkMode }) {
         <div className='flex items-center lg:mr-4'>
           <div
             className={`relative w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-all duration-700 ${
-              darkMode ? 'bg-slate-600' : 'bg-gray-300'
+              darkMode ? 'bg-slate-600' : 'bg-gray-200'
             }`}
             onClick={toggleDarkMode}
           >

@@ -38,8 +38,14 @@ function Home({ darkMode }) {
   }
 
   return (
-    <div>
-      <h1 className='text-3xl font-bold mb-6'>Book List</h1>
+    <div className=''>
+      <h1
+        className={`md:mb-10 mb-4 text-3xl font-bold ${
+          darkMode ? 'text-[#f8f6ea]' : 'text-slate-700'
+        }`}
+      >
+        Book List
+      </h1>
       <BookList
         books={books}
         onEdit={handleEdit}

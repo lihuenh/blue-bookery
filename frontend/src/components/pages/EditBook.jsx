@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom' // Cambiar useHistory por useNavigate
+import { useParams, useNavigate, Link } from 'react-router-dom' // Cambiar useHistory por useNavigate
 
 const apiUrl = import.meta.env.VITE_API_URL ?? ''
 
@@ -39,13 +39,21 @@ function EditBook({ darkMode }) {
 
   return (
     <div
-      className={`transition-all duration-700 ${
+      className={`transition-all duration-500${
         darkMode ? ' text-white' : 'text-black'
       }`}
     >
+      <div className='hidden md:flex justify-between items-center sticky top-0 pb-4'>
+        <Link
+          to='/'
+          className='w-28 h-8 bg-blue-700 text-white rounded hover:bg-blue-600 flex items-center justify-center text-sm font-semibold'
+        >
+          ← Back
+        </Link>
+      </div>
       <h1
-        className={`text-3xl font-semibold ${
-          darkMode ? 'text-white' : 'text-gray-900'
+        className={`text-3xl font-bold mb-4 ${
+          darkMode ? 'text-[#f8f6ea]' : 'text-slate-700'
         }`}
       >
         Edit Book
@@ -55,7 +63,7 @@ function EditBook({ darkMode }) {
         {Object.keys(book).map(
           (key) =>
             key !== 'id' && ( // No mostrar el campo 'id'
-              <div key={key} className='col-span-1'>
+              <div key={key} className='col-span-1 '>
                 <label
                   htmlFor={key}
                   className={`block text-sm font-medium ${
@@ -73,19 +81,19 @@ function EditBook({ darkMode }) {
                   onChange={handleChange}
                   className={`p-2 mt-2 border rounded w-full ${
                     darkMode
-                      ? 'bg-gray-700 text-gray-200 border-gray-600'
-                      : 'bg-white text-black border-gray-300'
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-700`}
+                      ? 'bg-gray-700 text-white border-gray-600'
+                      : 'bg-gray-50 text-slate-700 border-gray-300'
+                  } focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300`}
                 />
               </div>
             )
         )}
         <button
           type='submit'
-          className={`mt-4 w-full p-2 rounded ${
+          className={`mt-6 w-full p-2 rounded ${
             darkMode
-              ? 'bg-blue-500 text-white hover:bg-blue-600'
-              : 'bg-blue-600 text-white hover:bg-blue-700'
+              ? 'bg-green-700 text-white hover:bg-green-600'
+              : 'bg-green-600 text-white hover:bg-green-500'
           }`}
         >
           Update

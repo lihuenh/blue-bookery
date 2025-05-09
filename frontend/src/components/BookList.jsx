@@ -3,7 +3,7 @@ import BookCard from './BookCard'
 
 function BookList({ books, onDelete, onEdit, darkMode }) {
   return (
-    <div className='grid grid-cols-auto-fit gap-4 lg:gap-6 justify-center mt-2'>
+    <div className='grid grid-cols-1 gap-5 lg:gap-8 justify-center mt-2'>
       {books.map((book) => (
         <BookCard
           key={book.id}

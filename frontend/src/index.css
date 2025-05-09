@@ -9,3 +9,8 @@
   color: #e2e8f0; /* Texto claro */
   transition: all 0.4s;
 }
+
+.light {
+  /* background-color: #fffcef; */
+  background-color: #fcf7e3;
+}

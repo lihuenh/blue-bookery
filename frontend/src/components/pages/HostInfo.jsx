@@ -25,40 +25,45 @@ const HostInfo = () => {
   }
 
   return (
-    <div>
-      <h3 className='text-2xl font-bold mb-6'>Backend Info</h3>
-      <p>
-        <strong>Docker:</strong> {hostInfo.Docker ? 'true' : 'false'}
-      </p>
-      <p>
-        <strong>Kubernetes:</strong> {hostInfo.Kubernetes ? 'true' : 'false'}
-      </p>
-      <p>
-        <strong>Pod Name:</strong> {hostInfo.PodName}
-      </p>
-      <p>
-        <strong>Hostname:</strong> {hostInfo.hostname}
-      </p>
-      <p>
-        <strong>IP:</strong> {hostInfo.IP}
-      </p>
-      <h3 className='text-2xl font-bold mb-6'></h3>
-      <h3 className='text-2xl font-bold mb-6'>Frontend Info</h3>
-      <p>
-        <strong>Docker:</strong> {hostFrontInfo.podName ? 'false' : 'true'}
-      </p>
-      <p>
-        <strong>Kubernetes:</strong> {hostFrontInfo.podName ? 'true' : 'false'}
-      </p>
-      <p>
-        <strong>Pod Name:</strong> {hostFrontInfo.podName}
-      </p>
-      <p>
-        <strong>Hostname:</strong> {hostFrontInfo.podName}
-      </p>
-      <p>
-        <strong>IP:</strong> {hostFrontInfo.ip}
-      </p>
+    <div className='md:w-[50rem] grid md:grid-cols-2 gap-4'>
+      <div className=''>
+        <h3 className='text-2xl font-bold mb-6'>Backend Info</h3>
+        <p>
+          <strong>Docker:</strong> {hostInfo.Docker ? 'true' : 'false'}
+        </p>
+        <p>
+          <strong>Kubernetes:</strong> {hostInfo.Kubernetes ? 'true' : 'false'}
+        </p>
+        <p>
+          <strong>Pod Name:</strong> {hostInfo.PodName}
+        </p>
+        <p>
+          <strong>Hostname:</strong> {hostInfo.hostname}
+        </p>
+        <p>
+          <strong>IP:</strong> {hostInfo.IP}
+        </p>
+      </div>
+
+      <div className=''>
+        <h3 className='text-2xl font-bold mb-6'>Frontend Info</h3>
+        <p>
+          <strong>Docker:</strong> {hostFrontInfo.podName ? 'false' : 'true'}
+        </p>
+        <p>
+          <strong>Kubernetes:</strong>{' '}
+          {hostFrontInfo.podName ? 'true' : 'false'}
+        </p>
+        <p>
+          <strong>Pod Name:</strong> {hostFrontInfo.podName}
+        </p>
+        <p>
+          <strong>Hostname:</strong> {hostFrontInfo.podName}
+        </p>
+        <p>
+          <strong>IP:</strong> {hostFrontInfo.ip}
+        </p>
+      </div>
     </div>
   )
 }

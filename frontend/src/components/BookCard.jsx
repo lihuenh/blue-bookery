@@ -1,45 +1,48 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-function BookCard({ book, onDelete, darkMode }) {
+function BookCard({ book, darkMode }) {
   return (
     <div
-      className={`flex flex-col h-[500px] rounded-lg shadow-lg overflow-hidden transition-all duration-700 
-      ${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-700'}`}
+      className={`flex flex-col sm:flex-row w-full sm:rounded-r-lg sm:rounded-l-sm rounded-md shadow-md overflow-hidden ${
+        darkMode ? 'bg-slate-800 text-white' : 'bg-gray-100 text-slate-700'
+      } md:h-[250px] sm:bg-transparent sm:shadow-none p-3 sm:p-0`}
     >
-      <Link to={`/edit-book/${book.id}`} className='h-[60%]'>
-        <img
-          className='h-full w-full object-cover'
-          src={
-            book.image && book.image !== ''
-              ? book.image
-              : 'https://img.freepik.com/free-vector/glitch-error-404-page_23-2148105404.jpg'
-          }
-          alt={book.title}
-        />
-      </Link>
+      <div className='flex justify-center items-start'>
+        <Link
+          to={`/book/${book.id}`}
+          className='block sm:min-w-[160px] sm:h-[250px]'
+        >
+          <img
+            className='sm:h-full sm:w-full w-[250px] sm:max-h-[600px] object-cover rounded-r-xl shadow-md'
+            src={
+              book.image ||
+              'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fGJvb2slMjBpbWFnZXxlbnwwfHx8fDE2ODQ5NTY1NzM&ixlib=rb-4.0.3&q=80&w=400'
+            }
+            alt={book.title}
+          />
+        </Link>
+      </div>
 
-      <div className='h-[40%] p-4 flex flex-col justify-between'>
+      <div className='flex flex-col justify-between w-full mt-4 sm:mt-0 sm:ml-4 overflow-hidden'>
         <div>
-          <h3 className='text-lg font-semibold'>{book.title}</h3>
-          <p className='text-sm'>{book.author}</p>
-          <p className='text-sm'>Year: {book.year}</p>
-        </div>
-
-        <div className='flex justify-between'>
-          <Link
-            to={`/book/${book.id}`}
-            className='bg-blue-500 text-white p-2 rounded hover:bg-blue-600'
-          >
-            View Details
-          </Link>
-
-          <button
-            onClick={() => onDelete(book.id)}
-            className='bg-red-500 text-white p-2 rounded hover:bg-red-600'
-          >
-            Delete
-          </button>
+          <h1 className='text-xl font-bold mb-1'>{book.title}</h1>
+          <p className='text-md font-medium mb-1'>{book.author}</p>
+          <hr className={`my-2 `} />
+          <span className='text-sm text-clip'>Genres</span>
+          <p className='text-sm text-balance'>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque
+            illo beatae veritatis a quae vel fugit porro molestias, sed expedita
+            inventore accusantium id maxime odio iste dolor, quia nobis ipsa?
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum
+            eveniet quaerat doloremque voluptas obcaecati. Consequatur eum, ex,
+            aliquid optio reprehenderit assumenda eligendi sunt in quibusdam
+            voluptatibus nobis ipsum accusamus molestias! Lorem ipsum dolor sit
+            amet consectetur adipisicing elit. Quis, itaque harum magni, omnis
+            est sapiente distinctio sunt animi voluptas tempore adipisci!
+            Cumque, architecto dolorum! Praesentium tempora laborum neque! Eos,
+            ea.
+          </p>
         </div>
       </div>
     </div>

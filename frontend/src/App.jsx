@@ -21,7 +21,7 @@ function App() {
   return (
     <Router>
       {/* Contenedor principal con flex y min-h-screen */}
-      <div className='flex flex-col min-h-screen'>
+      <div className={`flex flex-col min-h-screen`}>
         {/* Navbar */}
         <Navbar
           darkMode={darkMode}
@@ -29,7 +29,7 @@ function App() {
         />
 
         {/* Contenido principal con flex-grow */}
-        <div className='flex-grow lg:px-6 pt-24 px-4 pb-20'>
+        <div className='flex-grow lg:px-6 pt-24 px-4 pb-20 lg:w-[52rem] lg:mx-auto'>
           <Routes>
             <Route path='/' element={<Home darkMode={darkMode} />} />
             <Route path='/add' element={<AddBook darkMode={darkMode} />} />

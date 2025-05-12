@@ -39,11 +39,11 @@ function BookForm({ book, setBook, onSubmit, darkMode }) {
                 placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
                 value={book[key]}
                 onChange={(e) => setBook({ ...book, [key]: e.target.value })}
-                className={`p-2 border rounded h-10 px-3 py-1 ${
+                className={`p-2 border rounded-md h-10 px-3 py-1 ${
                   darkMode
                     ? 'bg-gray-700 text-white border-gray-600'
                     : 'bg-gray-50 text-slate-700 border-gray-300'
-                } focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300`}
+                } focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-100`}
               />
             ) : null
           )}
@@ -80,11 +80,11 @@ function BookForm({ book, setBook, onSubmit, darkMode }) {
 
       <button
         onClick={onSubmit}
-        className={`mt-6 w-full p-2 rounded ${
+        className={`mt-6 w-full p-2 rounded-full ${
           darkMode
             ? 'bg-green-700 text-white hover:bg-green-600'
             : 'bg-green-600 text-white hover:bg-green-500'
-        }`}
+        } hover:ring-2 hover:ring-green-300 transition duration-200 ease-in-out`}
       >
         {book.id ? 'Update' : 'Add'}
       </button>

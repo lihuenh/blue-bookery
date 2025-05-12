@@ -40,7 +40,7 @@ function Home({ darkMode }) {
   return (
     <div className=''>
       <h1
-        className={`md:mb-10 mb-4 text-3xl font-bold ${
+        className={`lg:mb-6 mb-4 text-3xl font-bold ${
           darkMode ? 'text-[#f8f6ea]' : 'text-slate-700'
         }`}
       >

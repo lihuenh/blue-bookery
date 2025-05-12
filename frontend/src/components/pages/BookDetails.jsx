@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
+import BackButton from '../Buttons/BackButton'
+import { PencilIcon, TrashIcon } from '@heroicons/react/24/solid'
 
 const apiUrl = import.meta.env.VITE_API_URL ?? ''
 
@@ -61,16 +63,8 @@ function BookDetails({ darkMode }) {
 
   return (
     <>
-      {/* Botón de regreso en pantallas grandes */}
-      <div className='md:flex justify-between items-center sticky top-0 pb-4'>
-        <Link
-          to='/'
-          className='w-28 h-8 bg-blue-700 text-white rounded-full hover:bg-blue-600 flex items-center justify-center text-sm font-semibold'
-        >
-          ← Back
-        </Link>
-      </div>
-
+      {/* Botón de retroceso */}
+      <BackButton darkMode={darkMode} />
       {/* Título */}
       <div
         className={`transition-all duration-500 ${
@@ -95,69 +89,79 @@ function BookDetails({ darkMode }) {
         {/* Imagen y botones */}
         <div className='md:w-[350px] flex flex-col items-center'>
           <img
-            className='w-[350px] max-h-[600px] object-cover rounded-r-xl shadow-md'
+            className='w-[350px] max-h-[600px] object-cover rounded-r-xl rounded-l-sm shadow-lg shadow-black/40'
             src={
               book.image ||
               'https://img.freepik.com/free-vector/glitch-error-404-page_23-2148105404.jpg'
             }
             alt={book.title}
           />
-          <div className='hidden md:flex gap-2 w-full mt-4'>
+          <div className='hidden md:flex gap-2 w-full mt-8'>
             <Link
               to={`/edit-book/${book.id}`}
-              className='w-full h-10 bg-yellow-500 text-white rounded-full hover:bg-yellow-400 flex items-center justify-center text-md font-semibold'
+              className='w-full h-10 bg-yellow-500 text-white rounded-full hover:bg-yellow-400 flex items-center justify-center text-md font-semibold hover:ring-2 hover:ring-yellow-200 transition duration-200 ease-in-out'
             >
-              Edit
+              <PencilIcon className={`h-4 w-4 cursor-pointer text-white`} />
+              <span className='ml-2'>Edit</span>
             </Link>
             <button
               onClick={() => setShowConfirm(true)}
-              className='w-full h-10 bg-red-600 text-white rounded-full hover:bg-red-500 flex items-center justify-center text-md font-semibold'
+              className='w-full h-10 bg-red-600 text-white rounded-full hover:bg-red-500 flex items-center justify-center text-md font-semibold hover:ring-2 hover:ring-red-300 transition duration-200 ease-in-out'
             >
-              Delete
+              <TrashIcon className={`h-4 w-4 cursor-pointer text-white`} />
+              <span className='ml-2'>Delete</span>
             </button>
           </div>
         </div>
 
         {/* Botones en móviles */}
-        <div className='mt-4 flex flex-col md:hidden gap-2'>
+        <div className='mt-8 flex flex-col md:hidden gap-2'>
           <div className='flex gap-2'>
             <Link
               to={`/edit-book/${book.id}`}
-              className='w-full h-10 bg-yellow-500 text-white rounded-full hover:bg-yellow-400 flex items-center justify-center text-md font-semibold'
+              className='w-full h-10 bg-yellow-500 text-white rounded-full hover:bg-yellow-400 flex items-center justify-center text-md font-semibold hover:ring-2 hover:ring-yellow-200 transition duration-200 ease-in-out'
             >
-              Edit
+              <PencilIcon className={`h-4 w-4 cursor-pointer text-white`} />
+              <span className='ml-2'>Edit</span>
             </Link>
             <button
               onClick={() => setShowConfirm(true)}
-              className='w-full h-10 bg-red-600 text-white rounded-full hover:bg-red-500 flex items-center justify-center text-md font-semibold'
+              className='w-full h-10 bg-red-600 text-white rounded-full hover:bg-red-500 flex items-center justify-center text-md font-semibold hover:ring-2 hover:ring-red-300 transition duration-200 ease-in-out'
             >
-              Delete
+              <TrashIcon className={`h-4 w-4 cursor-pointer text-white`} />
+              <span className='ml-2'>Delete</span>
             </button>
           </div>
         </div>
 
         {/* Detalles del libro */}
-        <div className='flex-1 md:ml-6 mt-6 md:mt-0 md:overflow-y-auto md:max-h-[calc(100vh-280px)] md:min-h-[600px]'>
-          <h1 className='text-3xl font-bold mb-1'>{book.title}</h1>
-          <p className='mb-3 text-lg font-medium'>{book.author}</p>
-          <p className='mb-1'>Year: {book.year}</p>
-          <p className='mb-1'>Publisher: {book.publisher}</p>
-          <p className='mb-1'>Uploaded by: {book.uploaded_by}</p>
-          <p className='mb-1'>Date Uploaded: {book.upload_date}</p>
-          <p className='mb-1'>Last Updated: {book.last_modified}</p>
-          <p className='text-sm text-balance'>
-            {showFullDescription
-              ? book.description
-              : truncateDescription(book.description, 100)}
-            {book.description.length > 100 && (
-              <button
-                onClick={() => setShowFullDescription(!showFullDescription)}
-                className='text-blue-500 ml-2 '
-              >
-                {showFullDescription ? 'Show less' : 'Show more '}
-              </button>
-            )}
-          </p>
+        <div className='flex-1 md:ml-6 mt-6 md:mt-0 md:overflow-y-auto md:max-h-[calc(100vh-280px)] md:min-h-[600px] md:pr-2'>
+          <div className='md:mr-2'>
+            {' '}
+            {/* Este div empuja el contenido a la izquierda */}
+            <h1 className='text-3xl font-bold mb-1'>{book.title}</h1>
+            <p className='mb-1 font-medium'>{book.author}</p>
+            <hr className='mb-3' />
+            <span className='text-sm text-clip'>Genres</span>
+            <p className='mb-1'>Year: {book.year}</p>
+            <p className='mb-1'>Publisher: {book.publisher}</p>
+            <p className='mb-1'>Uploaded by: {book.uploaded_by}</p>
+            <p className='mb-1'>Date Uploaded: {book.upload_date}</p>
+            <p className='mb-1'>Last Updated: {book.last_modified}</p>
+            <p className='text-sm text-balance'>
+              {showFullDescription
+                ? book.description
+                : truncateDescription(book.description, 100)}
+              {book.description.length > 100 && (
+                <button
+                  onClick={() => setShowFullDescription(!showFullDescription)}
+                  className='text-blue-500 ml-2'
+                >
+                  {showFullDescription ? 'Show less' : 'Show more '}
+                </button>
+              )}
+            </p>
+          </div>
         </div>
       </div>
 
